@@ -1,0 +1,29 @@
+groups:
+  - name: windows_cpu_alerts
+    rules:
+      - alert: HighCPUUtil #CPU
+        expr: 100 - (avg by (instance) (irate(windows_cpu_time_total{mode="idle"}[1m])) * 100) > 85
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU utilization on {{ $labels.instance }}"
+          description: "CPU utilization has been above 85% for 3 minutes."
+
+      - alert: HighRAMUtil #RAM
+        expr: windows_memory_available_bytes < 2e9
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High RAM utilization on {{ $labels.instance }}"
+          description: "Available RAM is below 2 GB for 3 minutes."
+
+      - alert: HighDiskUtilC
+        expr: (1 - (windows_logical_disk_free_bytes{volume="C:"} / windows_logical_disk_size_bytes{volume="C:"})) * 100 > 90
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High disk utilization on C: {{ $labels.instance }}"
+          description: "Disk utilization on C: has been above 90% for 10 minutes."
