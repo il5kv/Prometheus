@@ -19,7 +19,7 @@ groups:
           summary: "High RAM utilization on {{ $labels.instance }}"
           description: "Available RAM is below 2 GB for 3 minutes."
 
-      - alert: HighDiskUtilC
+      - alert: HighDiskUtilC #DiskSpace
         expr: (1 - (windows_logical_disk_free_bytes{volume="C:"} / windows_logical_disk_size_bytes{volume="C:"})) * 100 > 90
         for: 10m
         labels:

@@ -1,3 +1,5 @@
+# WINDOWS CONFIG (NODE EXPORTER)
+
 global:
   scrape_interval: 5s
 
